@@ -22,15 +22,15 @@ const digitWords = {
 function replaceWords(s: string): string {
     let n = ''
     for (let i = 0; i < s.length; i++) {
+        if (!isNaN(parseInt(s[i]))) {
+            n += s[i]
+            continue
+        }
         for (const [key, value] of Object.entries(digitWords)) {
             const word = s.substring(i, i+key.length)
             if (word === key) {
                 n += value
                 continue
-            }
-            if (!isNaN(parseInt(s[i]))) {
-                n += s[i]
-                break
             }
         }
     }
