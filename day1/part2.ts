@@ -19,19 +19,27 @@ const digitWords = {
     'nine': '9',
 }
 
-function replaceWords(a: string): string {
-    let s = a
-    for (const [key, value] of Object.entries(digitWords)) {
-        s = s.replaceAll(key, value)
+function replaceWords(s: string): string {
+    let n = ''
+    for (let i = 0; i < s.length; i++) {
+        for (const [key, value] of Object.entries(digitWords)) {
+            const word = s.substring(i, i+key.length)
+            if (word === key) {
+                n += value
+                continue
+            }
+            if (!isNaN(parseInt(s[i]))) {
+                n += s[i]
+                break
+            }
+        }
     }
-    log(s)
-    return s
+    return n
 }
 
 const calibrationValues: string[] = []
 for (const line of parse(__dirname + '/input')) {
-    const v = replaceWords(line)
-    let values = v.split('').filter(a => !isNaN(parseInt(a))).join('')
+    const values = replaceWords(line)
     if (values.length === 1) {
         calibrationValues.push(values[0] + values[0])
         continue
